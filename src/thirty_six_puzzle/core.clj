@@ -1,11 +1,20 @@
 (ns thirty-six-puzzle.core)
 
-(def empty-board [[{:height 5 :color :none} {:height 3 :color :none} {:height 2 :color :none} {:height 1 :color :none} {:height 4 :color :none} {:height 6 :color :none}]
-                  [{:height 4 :color :none} {:height 1 :color :none} {:height 6 :color :none} {:height 2 :color :none} {:height 5 :color :none} {:height 3 :color :none}]
-                  [{:height 6 :color :none} {:height 5 :color :none} {:height 3 :color :none} {:height 4 :color :none} {:height 1 :color :none} {:height 2 :color :none}]
-                  [{:height 1 :color :none} {:height 2 :color :none} {:height 5 :color :none} {:height 3 :color :none} {:height 6 :color :none} {:height 4 :color :none}]
-                  [{:height 2 :color :none} {:height 4 :color :none} {:height 1 :color :none} {:height 6 :color :none} {:height 3 :color :none} {:height 5 :color :none}]
-                  [{:height 3 :color :none} {:height 6 :color :none} {:height 4 :color :none} {:height 5 :color :none} {:height 2 :color :none} {:height 1 :color :none}]])
+(def board-heights [[5 3 2 1 4 6]
+                    [4 1 6 2 5 3]
+                    [6 5 3 4 1 2]
+                    [1 2 5 3 6 4]
+                    [2 4 1 6 3 5]
+                    [3 6 4 5 2 1]])
+
+(defn empty-board []
+  (vec (map-indexed
+        (fn [row-idx row]
+          (vec (map-indexed
+                (fn [col-idx height]
+                  {:height height :color :none :row row-idx :col col-idx})
+                row)))
+        board-heights)))
 
 (def colors [:green :blue :red :yellow :purple :orange])
 
