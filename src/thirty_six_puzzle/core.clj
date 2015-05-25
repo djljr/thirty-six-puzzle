@@ -41,4 +41,4 @@
   (let [valid-heights (valid-heights board height)
         valid-color-row (valid-color board color)
         valid-color-col (valid-color (transpose board) color)]
-    [valid-heights valid-color-row valid-color-col]))
+    (valid-row [valid-heights valid-color-row valid-color-col])))
