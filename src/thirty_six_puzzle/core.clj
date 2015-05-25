@@ -37,6 +37,8 @@
 (defn row-has-color [row color]
   (some #(= color (:color %)) row))
 
+(def col-has-color row-has-color)
+
 (defn valid-heights [board height]
   (map #(row-has-height % height) board))
 
@@ -46,8 +48,20 @@
 (defn valid-row [position-data]
   (map #(every? identity %) (apply mapv vector position-data)))
 
+(defn find-all-of-height [board height]
+  (filter (fn [pos] (= height (:height pos))) (flatten board)))
+
+(defn get-row [board row-idx]
+  (get board row-idx))
+
+(defn get-col [board col-idx]
+  (get (transpose board) col-idx))
+
 (defn valid-rows [board color height]
-  (let [valid-heights (valid-heights board height)
-        valid-color-row (valid-color board color)
+  (let [possible-moves (find-all-of-height board height)
+        possible-moves (filter (fn [pos]
+                                 (row-has-color
+                                  (get-row board (:row pos))
+                                  color)) possible-moves)
         valid-color-col (valid-color (transpose board) color)]
-    (valid-row [valid-heights valid-color-row valid-color-col])))
+    possible-moves))
